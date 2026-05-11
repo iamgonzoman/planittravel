@@ -1,303 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlanitTravel — AI-powered travel for Bitcoin users & digital nomads</title>
-<meta name="description" content="The only travel app for Bitcoin users, digital nomads, and global travelers. AI-powered planning, Lightning payments, GPS audio tours. Works offline. $14.99/year.">
-<meta property="og:title" content="PlanitTravel — The only travel app you'll ever need">
-<meta property="og:description" content="AI-powered planning · Bitcoin-native payments · GPS audio tours · Works offline · For weekend travelers, digital nomads & global explorers">
-<meta property="og:image" content="/og.png">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#08070A;--card:#14121A;--surf:#1E1B26;--b1:rgba(255,255,255,.08);--b2:rgba(255,255,255,.14);--tx:#F0EDE6;--mu:#6E6A78;--btc:#F7931A;--grn:#22C55E;--blu:#60A5FA}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--tx);font-family:'Instrument Sans',sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}
+PlanItTravel
+Join Waitlist
+⚡ Now accepting founding members · $4.99/year forever
+The Only Travel App
+You'll Ever Need
+AI-powered planning · Bitcoin-native payments · GPS audio tours · Works offline · For weekend travelers, digital nomads & global explorers
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,7,10,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1)}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-wm{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--tx);letter-spacing:-.4px}
-.nav-wm span{color:var(--btc)}
-.nav-cta{background:var(--btc);color:#000;border:none;border-radius:10px;padding:9px 20px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;transition:opacity .2s}
-.nav-cta:hover{opacity:.85}
+⚡ Bitcoin Lightning
+☀️ Sol AI Companion
+🎙 GPS Audio Tours
+✓ Works Offline
+🌍 40+ Languages
+₿ 14,885 BTC Merchants
+Join the waitlist. Founding members get Voyager at $4.99/year forever.
+your@email.com
+Join ₿
+No spam. Ever. Unsubscribe any time. Founding member price locked forever.
 
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(247,147,26,.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.hero::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(96,165,250,.06),transparent 70%);top:20%;right:10%;pointer-events:none}
-.hero-inner{position:relative;z-index:1;max-width:680px}
-.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.25);border-radius:99px;padding:6px 16px;font-size:12.5px;font-weight:500;color:var(--btc);margin-bottom:28px}
-.hero h1{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,68px);font-weight:800;letter-spacing:-2px;line-height:1.02;margin-bottom:20px}
-.hero h1 span{color:var(--btc)}
-.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--mu);line-height:1.65;margin-bottom:36px;max-width:540px;margin-left:auto;margin-right:auto}
-.hero-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:40px}
-.pill{padding:6px 14px;border-radius:99px;font-size:12.5px;font-weight:500;border:1px solid var(--b2);color:var(--mu)}
+Open source on GitHub
+14,885
+Bitcoin merchants on the map
+37,700+
+Crypto ATMs worldwide
+8→1
+Apps replaced
+40+
+Languages supported
+$14.99
+Per year. Not per month.
+What it does
+Replaces 8 apps.
+Costs less than one airport coffee.
+One app that plans your trip, guides you while you walk, pays merchants in Bitcoin, and works when there is no signal.
 
-/* EMAIL FORM */
-.form-wrap{background:var(--card);border:1px solid var(--b2);border-radius:18px;padding:28px;max-width:480px;margin:0 auto}
-.form-label{font-size:13px;font-weight:500;color:var(--mu);margin-bottom:14px;display:block}
-.form-label strong{color:var(--tx)}
-.input-row{display:flex;gap:8px}
-.email-input{flex:1;background:var(--surf);border:1px solid var(--b2);border-radius:12px;padding:13px 16px;font-size:14px;color:var(--tx);font-family:'Instrument Sans',sans-serif;outline:none;transition:border-color .2s}
-.email-input::placeholder{color:var(--mu)}
-.email-input:focus{border-color:rgba(247,147,26,.5)}
-.submit-btn{background:var(--btc);color:#000;border:none;border-radius:12px;padding:13px 22px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .2s}
-.submit-btn:hover{opacity:.85}
-.form-note{font-size:11.5px;color:var(--mu);margin-top:10px;text-align:center}
-.form-note span{color:var(--btc);font-weight:500}
-.success-msg{display:none;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:12px;padding:14px;text-align:center;font-size:13px;color:var(--grn);margin-top:12px}
+⚡
+Bitcoin Lightning Payments
+Pay any of 14,885 merchants instantly with Bitcoin Lightning, USDT, or ETH. No bank. No foreign transaction fees. No currency exchange.
+☀️
+Sol — Your AI Companion
+Paste any booking confirmation and Sol organizes your entire trip in seconds. Flights, hotels, restaurants, activities — all structured instantly.
+🎙️
+PlanitGuide — GPS Audio Tours
+AI-generated guided audio tours for any location on earth. Triggers as you walk. 6 guide personas, any language, any city.
+🗺️
+Works Fully Offline
+Download your maps, itinerary, and guide before you leave. No signal in Morocco? PlanitTravel still works. Completely.
+💱
+Crypto ATM Finder
+Find the nearest crypto ATM to convert Bitcoin to local cash anywhere in the world. 37,700+ ATMs mapped globally with fees and hours.
+🌐
+Voice Interpreter
+Hold to speak — translated and spoken back in 40+ languages instantly. Camera translation for signs and menus. Works offline in 12 languages.
+Digital nomads
+Nomads.com is $180/year.
+We are $14.99.
+PlanitTravel replaces Nomads.com, TripIt Pro, XE Currency, Google Translate, and four other apps — for $14.99 a year total.
 
-/* STATS */
-.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;padding:60px 24px;border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);margin:60px 0 0}
-.stat-val{font-family:'DM Mono',monospace;font-size:32px;font-weight:500;color:var(--btc);display:block;margin-bottom:4px}
-.stat-key{font-size:13px;color:var(--mu)}
+⚠️
+183-Day Tax Tracker
+Auto-tracks days per country. Alerts before you hit tax residency threshold.
+📋
+55+ Digital Nomad Visas
+Requirements, income thresholds, application process per country.
+💰
+Cost of Living
+"Can I afford Lisbon on $3,000/month?" Sol answers with full breakdown.
+💸
+Get Paid in Bitcoin
+Bitwage integration — employer pays fiat, you receive BTC on payday.
+What nomads currently pay
+Nomads.com
+$179.88/yr
+TripIt Pro
+$48.99/yr
+XE Currency
+$19.99/yr
+Translate app
+$29.99/yr
+Total
+$278.85/yr
+PlanitTravel — all of the above + more
+$14.99/yr
+Save $263.86 every year
+Simple pricing
+One price. Everything included.
+Free tier available. No credit card required to start.
 
-/* FEATURES */
-.features{padding:80px 24px;max-width:960px;margin:0 auto}
-.section-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--btc);margin-bottom:12px}
-.section-title{font-family:'Syne',sans-serif;font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.6px;margin-bottom:14px}
-.section-sub{font-size:15px;color:var(--mu);max-width:520px;line-height:1.65;margin-bottom:48px}
-.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.feat-card{background:var(--card);border:1px solid var(--b1);border-radius:16px;padding:22px}
-.feat-ico{font-size:28px;margin-bottom:12px}
-.feat-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
-.feat-body{font-size:13px;color:var(--mu);line-height:1.6}
-.feat-card.btc-card{border-color:rgba(247,147,26,.25);background:rgba(247,147,26,.04)}
+Voyager — Most Popular
+$14.99/yr
+= $1.25/month · less than one airport coffee
+Unlimited AI trip parsing
+PlanitGuide GPS audio tours
+Offline maps + itinerary
+Voice interpreter — 40+ languages
+183-day tax tracker
+Full nomad hub — visas + cost of living
+BTC payments always free
+No ads. Ever.
+Join Waitlist — $4.99/yr Founding Price
+Free tier available · Start free
 
-/* PRICING */
-.pricing{padding:80px 24px;text-align:center;max-width:720px;margin:0 auto}
-.price-box{background:var(--card);border:1.5px solid rgba(247,147,26,.35);border-radius:20px;padding:32px;margin:32px auto;max-width:400px}
-.price-name{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--btc);margin-bottom:10px}
-.price-val{font-family:'DM Mono',monospace;font-size:48px;font-weight:500;color:var(--tx);line-height:1;margin-bottom:6px}
-.price-val sup{font-size:22px;vertical-align:top;margin-top:8px}
-.price-val sub{font-size:16px;color:var(--mu)}
-.price-sub{font-size:13px;color:var(--mu);margin-bottom:22px}
-.price-list{text-align:left;display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
-.price-item{display:flex;align-items:center;gap:10px;font-size:13.5px}
-.price-item::before{content:'✓';color:var(--grn);font-weight:700;flex-shrink:0}
-.price-free{font-size:13px;color:var(--mu);margin-top:8px}
-.price-free a{color:var(--btc);text-decoration:none;font-weight:500}
-
-/* NOMAD SECTION */
-.nomad{padding:80px 24px;background:var(--surf);margin:60px 0}
-.nomad-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.nomad-list{display:flex;flex-direction:column;gap:14px;margin-top:24px}
-.nomad-row{display:flex;align-items:flex-start;gap:12px}
-.nomad-ico{width:36px;height:36px;border-radius:10px;background:rgba(247,147,26,.12);border:1px solid rgba(247,147,26,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
-.nomad-title{font-size:14px;font-weight:500;margin-bottom:2px}
-.nomad-sub{font-size:12.5px;color:var(--mu)}
-
-/* FOOTER */
-footer{padding:40px 24px;border-top:1px solid var(--b1);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;max-width:960px;margin:0 auto}
-.footer-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--tx)}
-.footer-logo span{color:var(--btc)}
-.footer-links{display:flex;gap:20px}
-.footer-links a{font-size:13px;color:var(--mu);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--tx)}
-.footer-note{font-size:12px;color:var(--mu);width:100%}
-
-/* OPEN SOURCE BADGE */
-.os-badge{display:inline-flex;align-items:center;gap:6px;background:var(--surf);border:1px solid var(--b2);border-radius:99px;padding:5px 13px;font-size:12px;color:var(--mu);text-decoration:none;margin-top:16px;transition:border-color .2s}
-.os-badge:hover{border-color:var(--btc);color:var(--tx)}
-
-@media(max-width:640px){
-  .input-row{flex-direction:column}
-  .nomad-inner{grid-template-columns:1fr}
-  .stats{gap:28px}
-}
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="/">
-    <svg width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="15" cy="15" r="12" stroke="rgba(255,255,255,0.22)" stroke-width="1.2"/>
-      <line x1="15" y1="3" x2="15" y2="27" stroke="rgba(255,255,255,0.16)" stroke-width="0.8"/>
-      <line x1="3" y1="15" x2="27" y2="15" stroke="rgba(255,255,255,0.16)" stroke-width="0.8"/>
-      <line x1="7.4" y1="7.4" x2="22.6" y2="22.6" stroke="rgba(255,255,255,0.09)" stroke-width="0.6"/>
-      <line x1="22.6" y1="7.4" x2="7.4" y2="22.6" stroke="rgba(255,255,255,0.09)" stroke-width="0.6"/>
-      <polygon points="15,5 12.5,15 15,11 17.5,15" fill="#F7931A"/>
-      <polygon points="15,25 12.5,15 15,19 17.5,15" fill="rgba(255,255,255,0.2)"/>
-      <circle cx="3" cy="15" r="1.5" fill="rgba(255,255,255,0.18)"/>
-      <circle cx="27" cy="15" r="1.5" fill="rgba(255,255,255,0.18)"/>
-      <circle cx="15" cy="15" r="4" fill="#08070A" stroke="#F7931A" stroke-width="1.5"/>
-      <circle cx="15" cy="15" r="1.8" fill="#F7931A"/>
-      <circle cx="15" cy="4" r="3" fill="#F7931A"/>
-    </svg>
-    <div class="nav-wm">Plan<span>It</span>Travel</div>
-  </a>
-  <a class="nav-cta" href="#waitlist">Join Waitlist</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">⚡ Now accepting founding members · $4.99/year forever</div>
-    <h1>The Only Travel App<br>You'll <span>Ever Need</span></h1>
-    <p class="hero-sub">AI-powered planning · Bitcoin-native payments · GPS audio tours · Works offline · For weekend travelers, digital nomads &amp; global explorers</p>
-    <div class="hero-pills">
-      <div class="pill">⚡ Bitcoin Lightning</div>
-      <div class="pill">☀️ Sol AI Companion</div>
-      <div class="pill">🎙 GPS Audio Tours</div>
-      <div class="pill">✓ Works Offline</div>
-      <div class="pill">🌍 40+ Languages</div>
-      <div class="pill">₿ 14,885 BTC Merchants</div>
-    </div>
-
-    <!-- WAITLIST FORM -->
-    <div class="form-wrap" id="waitlist">
-      <span class="form-label"><strong>Join the waitlist.</strong> Founding members get Voyager free for life at $4.99/year.</span>
-      <form id="signupForm" onsubmit="handleSubmit(event)">
-        <div class="input-row">
-          <input class="email-input" type="email" id="emailInput" placeholder="your@email.com" required>
-          <button class="submit-btn" type="submit">Join ₿</button>
-        </div>
-      </form>
-      <div class="success-msg" id="successMsg">🎉 You're on the list! We'll be in touch soon.</div>
-      <p class="form-note">No spam. Ever. Unsubscribe any time. <span>Founding member price locked forever.</span></p>
-    </div>
-
-    <a class="os-badge" href="https://github.com/iamgonzoman/planittravel" target="_blank">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      Open source on GitHub
-    </a>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats">
-  <div style="text-align:center"><span class="stat-val">14,885</span><span class="stat-key">Bitcoin merchants on the map</span></div>
-  <div style="text-align:center"><span class="stat-val">37,700+</span><span class="stat-key">Crypto ATMs worldwide</span></div>
-  <div style="text-align:center"><span class="stat-val">8→1</span><span class="stat-key">Apps replaced</span></div>
-  <div style="text-align:center"><span class="stat-val">40+</span><span class="stat-key">Languages supported</span></div>
-  <div style="text-align:center"><span class="stat-val">$14.99</span><span class="stat-key">Per year. Not per month.</span></div>
-</div>
-
-<!-- FEATURES -->
-<section class="features">
-  <div class="section-tag">What it does</div>
-  <h2 class="section-title">Replaces 8 apps.<br>Costs less than one airport coffee.</h2>
-  <p class="section-sub">One app that plans your trip, guides you while you walk, pays merchants in Bitcoin, and works when there is no signal.</p>
-
-  <div class="feat-grid">
-    <div class="feat-card btc-card">
-      <div class="feat-ico">⚡</div>
-      <div class="feat-title">Bitcoin Lightning Payments</div>
-      <div class="feat-body">Pay any of 14,885 merchants instantly with Bitcoin Lightning, USDT, or ETH. No bank. No foreign transaction fees. No currency exchange.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-ico">☀️</div>
-      <div class="feat-title">Sol — Your AI Companion</div>
-      <div class="feat-body">Paste any booking confirmation and Sol organizes your entire trip in seconds. Flights, hotels, restaurants, activities — all structured instantly.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-ico">🎙️</div>
-      <div class="feat-title">PlanitGuide — GPS Audio Tours</div>
-      <div class="feat-body">AI-generated guided audio tours for any location on earth. Triggers as you walk. 6 guide personas, any language, any city.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-ico">🗺️</div>
-      <div class="feat-title">Works Fully Offline</div>
-      <div class="feat-body">Download your maps, itinerary, and guide before you leave. No signal in Morocco? PlanitTravel still works. Completely.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-ico">💱</div>
-      <div class="feat-title">Crypto ATM Finder</div>
-      <div class="feat-body">Find the nearest crypto ATM to convert Bitcoin to local cash anywhere in the world. 37,700+ ATMs mapped globally with fees and hours.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-ico">🌐</div>
-      <div class="feat-title">Voice Interpreter</div>
-      <div class="feat-body">Hold to speak — translated and spoken back in 40+ languages instantly. Camera translation for signs and menus. Works offline in 12 languages.</div>
-    </div>
-  </div>
-</section>
-
-<!-- NOMAD SECTION -->
-<section class="nomad">
-  <div class="nomad-inner">
-    <div>
-      <div class="section-tag">Digital nomads</div>
-      <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:clamp(24px,3.5vw,36px);font-weight:800;letter-spacing:-.5px;margin-bottom:12px">Nomads.com is $180/year.<br>We are $14.99.</h2>
-      <p style="font-size:14px;color:var(--mu);line-height:1.65">PlanitTravel replaces Nomads.com, TripIt Pro, XE Currency, Google Translate, and four other apps — for $14.99 a year total.</p>
-      <div class="nomad-list">
-        <div class="nomad-row"><div class="nomad-ico">⚠️</div><div><div class="nomad-title">183-Day Tax Tracker</div><div class="nomad-sub">Auto-tracks days per country. Alerts before you hit tax residency threshold.</div></div></div>
-        <div class="nomad-row"><div class="nomad-ico">📋</div><div><div class="nomad-title">55+ Digital Nomad Visas</div><div class="nomad-sub">Requirements, income thresholds, application process per country.</div></div></div>
-        <div class="nomad-row"><div class="nomad-ico">💰</div><div><div class="nomad-title">Cost of Living</div><div class="nomad-sub">"Can I afford Lisbon on $3,000/month?" Sol answers with full breakdown.</div></div></div>
-        <div class="nomad-row"><div class="nomad-ico">💸</div><div><div class="nomad-title">Get Paid in Bitcoin</div><div class="nomad-sub">Bitwage integration — employer pays fiat, you receive BTC on payday.</div></div></div>
-      </div>
-    </div>
-    <div>
-      <div style="background:var(--card);border:1px solid var(--b1);border-radius:18px;padding:24px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:16px">What nomads currently pay</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
-          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:0.5px solid var(--b1)"><span>Nomads.com</span><span style="font-family:'DM Mono',monospace;color:var(--red);text-decoration:line-through">$179.88/yr</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:0.5px solid var(--b1)"><span>TripIt Pro</span><span style="font-family:'DM Mono',monospace;color:var(--red);text-decoration:line-through">$48.99/yr</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:0.5px solid var(--b1)"><span>XE Currency</span><span style="font-family:'DM Mono',monospace;color:var(--red);text-decoration:line-through">$19.99/yr</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:0.5px solid var(--b1)"><span>Translate app</span><span style="font-family:'DM Mono',monospace;color:var(--red);text-decoration:line-through">$29.99/yr</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;padding:10px 0"><span>Total</span><span style="font-family:'DM Mono',monospace;color:var(--red);text-decoration:line-through">$278.85/yr</span></div>
-        </div>
-        <div style="background:rgba(247,147,26,.1);border:1.5px solid rgba(247,147,26,.3);border-radius:12px;padding:14px;text-align:center">
-          <div style="font-size:12px;color:var(--mu);margin-bottom:4px">PlanitTravel — all of the above + more</div>
-          <div style="font-family:'DM Mono',monospace;font-size:30px;font-weight:500;color:var(--btc)">$14.99<span style="font-size:15px;color:var(--mu)">/yr</span></div>
-          <div style="font-size:11.5px;color:var(--grn);margin-top:4px">Save $263.86 every year</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing">
-  <div class="section-tag">Simple pricing</div>
-  <h2 class="section-title">One price. Everything included.</h2>
-  <p style="font-size:15px;color:var(--mu);margin-bottom:8px">Free tier available. No credit card required to start.</p>
-  <div class="price-box">
-    <div class="price-name">Voyager — Most Popular</div>
-    <div class="price-val"><sup>$</sup>14<sub>.99/yr</sub></div>
-    <div class="price-sub">= $1.25/month · less than one airport coffee</div>
-    <div class="price-list">
-      <div class="price-item">Unlimited AI trip parsing</div>
-      <div class="price-item">PlanitGuide GPS audio tours</div>
-      <div class="price-item">Offline maps + itinerary</div>
-      <div class="price-item">Voice interpreter — 40+ languages</div>
-      <div class="price-item">183-day tax tracker</div>
-      <div class="price-item">Full nomad hub — visas + cost of living</div>
-      <div class="price-item">BTC payments always free</div>
-      <div class="price-item">No ads. Ever.</div>
-    </div>
-    <a class="nav-cta" href="#waitlist" style="display:block;text-align:center;padding:14px;border-radius:12px;font-size:15px">Join Waitlist — $4.99/yr Founding Price</a>
-    <p class="price-free">Free tier available · <a href="#waitlist">Start free</a></p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">Plan<span>It</span>Travel</div>
-  <div class="footer-links">
-    <a href="https://github.com/iamgonzoman/planittravel" target="_blank">GitHub</a>
-    <a href="#waitlist">Waitlist</a>
-    <a href="mailto:hello@planittravel.app">Contact</a>
-  </div>
-  <p class="footer-note">© 2025 PlanitTravel · Open source client · MIT License · Built for Bitcoin users, digital nomads, and global travelers</p>
-</footer>
-
-<script>
-function handleSubmit(e){
-  e.preventDefault();
-  const email = document.getElementById('emailInput').value;
-  if(!email) return;
-  // Temporarily store locally and show success
-  // Wire to Mailchimp once account is set up
-  document.getElementById('signupForm').style.display = 'none';
-  document.getElementById('successMsg').style.display = 'block';
-  console.log('Waitlist signup:', email);
-}
-</script>
-
-</body>
-</html>
+PlanItTravel
+GitHub
+Waitlist
+Contact
+© 2025 PlanitTravel · Open source client · MIT License · Built for Bitcoin users, digital nomads, and global travelers
