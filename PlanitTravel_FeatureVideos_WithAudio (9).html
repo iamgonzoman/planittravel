@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlanitTravel — Feature Videos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#08070A;--card:#14121A;--surf:#1E1B26;--b1:rgba(255,255,255,.08);--b2:rgba(255,255,255,.14);--tx:#F0EDE6;--mu:#6E6A78;--btc:#F7931A;--grn:#22C55E;--blu:#60A5FA;--pur:#A78BFA;--red:#F87171}
+body{background:var(--bg);color:var(--tx);font-family:'Instrument Sans',sans-serif;min-height:100vh}
+#menu{padding:40px 24px;max-width:900px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.wm{font-family:'Syne',sans-serif;font-size:22px;font-weight:800}
+.wm span{color:var(--btc)}
+.sub{font-size:13px;color:var(--mu);margin-bottom:20px}
+.tip{background:rgba(247,147,26,.08);border:1px solid rgba(247,147,26,.2);border-radius:12px;padding:14px 18px;margin-bottom:28px;font-size:13px;color:var(--mu);line-height:1.6}
+.tip strong{color:var(--tx)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--b1);border-radius:16px;padding:20px;cursor:pointer;transition:all .2s}
+.card:hover{border-color:var(--btc);transform:translateY(-2px)}
+.card-ico{font-size:32px;margin-bottom:10px}
+.card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.card-desc{font-size:12px;color:var(--mu);line-height:1.5;margin-bottom:8px}
+.card-dur{font-size:11px;color:var(--btc);font-family:'DM Mono',monospace}
+#player{display:none;position:fixed;inset:0;background:var(--bg);z-index:100}
+#sc{position:fixed;inset:0;z-index:110}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 32px 110px;text-align:center;opacity:0;transition:opacity .6s ease;pointer-events:none}
+.slide.active{opacity:1;pointer-events:all}
+.bg1{background:radial-gradient(circle at 50% 40%,rgba(247,147,26,.12),transparent 65%)}
+.bg2{background:radial-gradient(circle at 50% 40%,rgba(247,147,26,.1),transparent 65%)}
+.bg3{background:radial-gradient(circle at 50% 40%,rgba(167,139,250,.1),transparent 65%)}
+.bg4{background:radial-gradient(circle at 50% 40%,rgba(96,165,250,.1),transparent 65%)}
+.bg5{background:radial-gradient(circle at 50% 40%,rgba(34,197,94,.08),transparent 65%)}
+.bg6{background:radial-gradient(circle at 50% 40%,rgba(247,147,26,.08),transparent 65%)}
+.bg7{background:radial-gradient(circle at 50% 40%,rgba(167,139,250,.08),transparent 65%)}
+.bg8{background:radial-gradient(circle at 50% 40%,rgba(34,197,94,.1),transparent 65%)}
+.bg9{background:radial-gradient(circle at 50% 40%,rgba(248,113,113,.08),transparent 65%)}
+.kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--btc);margin-bottom:12px}
+.headline{font-family:'Syne',sans-serif;font-size:clamp(30px,5vw,56px);font-weight:800;letter-spacing:-1.5px;line-height:1.05;margin-bottom:16px}
+.headline em{color:var(--btc);font-style:normal}
+.body-text{font-size:clamp(14px,2vw,18px);color:var(--mu);line-height:1.65;max-width:560px;margin:0 auto 24px}
+.big-ico{font-size:80px;margin-bottom:24px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.badge{padding:6px 14px;border-radius:99px;font-size:12px;font-weight:500;border:1px solid var(--b2);color:var(--mu)}
+.bo{background:rgba(247,147,26,.1);border-color:rgba(247,147,26,.25);color:var(--btc)}
+.steps{display:flex;flex-direction:column;gap:10px;max-width:500px;margin:0 auto;text-align:left}
+.step{display:flex;align-items:flex-start;gap:14px;background:rgba(255,255,255,.04);border-radius:12px;padding:12px 14px;border:1px solid var(--b1)}
+.sn{width:28px;height:28px;border-radius:50%;background:var(--btc);color:#000;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.st{font-size:13px;line-height:1.5;color:var(--tx)}
+.ss{font-size:11px;color:var(--mu);margin-top:2px}
+.rc{background:rgba(247,147,26,.08);border:1px solid rgba(247,147,26,.2);border-radius:14px;padding:16px;max-width:460px;margin:0 auto;text-align:left}
+.sol-q{background:rgba(247,147,26,.08);border:1px solid rgba(247,147,26,.15);color:var(--mu);border-radius:12px 12px 2px 12px;padding:10px 12px;margin-bottom:8px;font-size:13px;text-align:right}
+.sol-a{background:var(--card);border:1px solid var(--b1);color:var(--tx);border-radius:2px 12px 12px 12px;padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.5}
+.sol-name{font-size:10px;color:var(--btc);margin-bottom:3px;font-weight:600}
+.db{background:rgba(255,255,255,.06);border-radius:99px;height:6px;width:260px;margin:0 auto 8px;overflow:hidden}
+.df{height:100%;background:var(--grn);border-radius:99px;animation:fill 2s ease forwards}
+@keyframes fill{0%{width:0%}100%{width:100%}}
+.ob{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:8px;padding:7px 14px;font-size:13px;color:var(--grn);display:inline-block;margin-bottom:10px}
+.nav{position:fixed;bottom:0;left:0;right:0;padding:16px 24px 28px;background:linear-gradient(to top,rgba(8,7,10,1) 70%,transparent);z-index:300;display:flex;align-items:center;justify-content:space-between}
+.nbtn{padding:12px 24px;border-radius:99px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.nm{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.nm:hover{background:rgba(255,255,255,.25)}
+.nn{background:var(--btc);color:#000;box-shadow:0 0 20px rgba(247,147,26,.4)}
+.nn:hover{opacity:.85}
+.dots{display:flex;gap:7px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s}
+.dot.on{background:var(--btc);width:22px;border-radius:4px}
+.info{position:fixed;top:16px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--mu);background:rgba(8,7,10,.9);padding:3px 12px;border-radius:99px;z-index:300;font-family:'DM Mono',monospace}
+.abar{position:fixed;top:0;left:0;height:3px;background:var(--btc);z-index:400;transition:width .3s linear}
+.astatus{position:fixed;top:18px;right:16px;font-size:11px;background:rgba(8,7,10,.9);padding:3px 12px;border-radius:99px;z-index:300;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div id="menu">
+  <div class="logo"><span style="font-size:28px">🧭</span><div class="wm">Plan<span>It</span>Travel</div></div>
+  <p class="sub">Feature videos · Tap any card to watch</p>
+  <div class="grid">
+    <div class="card" onclick="startVideo('overview')"><div class="card-ico">🧭</div><div class="card-title">Overview</div><div class="card-desc">What PlanitTravel is and why it replaces 8 apps</div><div class="card-dur">~90 sec · 4 slides</div></div>
+    <div class="card" onclick="startVideo('sol')"><div class="card-ico">☀️</div><div class="card-title">Sol AI Companion</div><div class="card-desc">Ask Sol anything about your trip</div><div class="card-dur">~45 sec · 3 slides</div></div>
+    <div class="card" onclick="startVideo('voice')"><div class="card-ico">🎙️</div><div class="card-title">Voice Interpreter</div><div class="card-desc">Hold to speak, hear translation in any language</div><div class="card-dur">~45 sec · 3 slides</div></div>
+    <div class="card" onclick="startVideo('camera')"><div class="card-ico">📷</div><div class="card-title">Camera Translation</div><div class="card-desc">Point camera at any sign to translate instantly</div><div class="card-dur">~30 sec · 2 slides</div></div>
+    <div class="card" onclick="startVideo('convo')"><div class="card-ico">💬</div><div class="card-title">Conversation Mode</div><div class="card-desc">Two people talking through one phone</div><div class="card-dur">~45 sec · 3 slides</div></div>
+    <div class="card" onclick="startVideo('money')"><div class="card-ico">💰</div><div class="card-title">Money & Currency</div><div class="card-desc">Convert any currency instantly</div><div class="card-dur">~30 sec · 2 slides</div></div>
+    <div class="card" onclick="startVideo('trip')"><div class="card-ico">✈️</div><div class="card-title">Add a Trip</div><div class="card-desc">Paste booking — Sol organizes your trip</div><div class="card-dur">~30 sec · 2 slides</div></div>
+    <div class="card" onclick="startVideo('offline')"><div class="card-ico">📡</div><div class="card-title">Offline Mode</div><div class="card-desc">Works with zero internet signal</div><div class="card-dur">~30 sec · 2 slides</div></div>
+    <div class="card" onclick="startVideo('feedback')"><div class="card-ico">📝</div><div class="card-title">Give Feedback</div><div class="card-desc">How to use the FB button</div><div class="card-dur">~20 sec · 2 slides</div></div>
+  </div>
+</div>
+
+<div id="player">
+  <div class="abar" id="abar" style="width:0%"></div>
+  <div class="info" id="info">1 / 4</div>
+  <div class="astatus" id="astatus">⏳ Loading audio...</div>
+  <div id="sc"></div>
+  <div class="nav">
+    <button class="nbtn nm" onclick="goMenu()">← Menu</button>
+    <div class="dots" id="dots"></div>
+    <div style="display:flex;gap:8px">
+      <button class="nbtn nm" id="ppbtn" onclick="togglePause()" style="font-size:16px;padding:10px 16px">⏸</button>
+      <button class="nbtn nn" id="nb" onclick="nextSlide()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const BASE = 'https://iamgonzoman.github.io/planittravel/audio/';
+
+const SLIDES = {
+  overview: [
+    {bg:'bg1', h:`<div class="big-ico">🧭</div><div class="kicker">Introducing</div><h1 class="headline">Plan<em>It</em>Travel</h1><p class="body-text">The travel app that actually knows where you are going. AI planning, voice interpreter, offline maps, camera translation — for every kind of traveler.</p><div class="badges"><div class="badge bo">☀️ Sol AI</div><div class="badge bo">🎙️ 40+ Languages</div><div class="badge bo">📡 Works Offline</div><div class="badge bo">📷 Camera Translate</div></div>`},
+    {bg:'bg1', h:`<div class="kicker">The Problem</div><h1 class="headline">You use <em>8 apps</em> to travel.</h1><div class="steps"><div class="step"><div class="sn" style="background:var(--red);color:#fff">✗</div><div><div class="st">TripIt Pro for itineraries</div></div></div><div class="step"><div class="sn" style="background:var(--red);color:#fff">✗</div><div><div class="st">Google Translate for language</div></div></div><div class="step"><div class="sn" style="background:var(--red);color:#fff">✗</div><div><div class="st">XE Currency for money</div></div></div><div class="step"><div class="sn" style="background:var(--red);color:#fff">✗</div><div><div class="st">Nomads.com for visa info</div></div></div></div>`},
+    {bg:'bg1', h:`<div class="kicker">The Solution</div><h1 class="headline">One app. <em>Everything.</em></h1><div class="steps"><div class="step"><div class="sn">✓</div><div><div class="st">Sol AI plans and advises your entire trip</div></div></div><div class="step"><div class="sn">✓</div><div><div class="st">Voice interpreter in 40+ languages</div></div></div><div class="step"><div class="sn">✓</div><div><div class="st">Camera translates any sign instantly</div></div></div><div class="step"><div class="sn">✓</div><div><div class="st">Works fully offline — no signal needed</div></div></div><div class="step"><div class="sn">✓</div><div><div class="st">Cash, card, or Bitcoin — your choice</div></div></div></div>`},
+    {bg:'bg1', h:`<div style="font-size:56px;margin-bottom:16px">🎉</div><div class="kicker">Join today</div><h1 class="headline"><em>$14.99</em> / year</h1><p class="body-text">Less than one airport coffee. Replaces $278 worth of travel apps. Free tier available. No ads. Ever.</p><a href="https://iamgonzoman.github.io/planittravel/#waitlist" target="_blank" style="display:inline-block;background:rgba(247,147,26,.1);border:1.5px solid rgba(247,147,26,.3);border-radius:16px;padding:14px 24px;margin-bottom:12px;text-decoration:none"><div style="font-size:12px;color:var(--grn);margin-bottom:2px">⚡ Join the waitlist — Early access</div><div style="font-size:13px;color:var(--mu)">Founding members locked in at <span style="color:var(--btc);font-weight:700">$4.99/yr forever</span></div></a><div style="font-family:'DM Mono',monospace;font-size:16px;color:var(--mu)">planittravel.app</div>`}
+  ],
+  sol: [
+    {bg:'bg2', h:`<div class="big-ico">☀️</div><div class="kicker">Meet Sol</div><h1 class="headline">Your AI <em>Travel Companion</em></h1><p class="body-text">Sol knows your destination, your dates, and your budget. Ask anything — get expert answers instantly.</p>`},
+    {bg:'bg2', h:`<div class="kicker">Real answers — not generic advice</div><h1 class="headline" style="font-size:clamp(22px,4vw,40px)">Ask Sol. <em>Get specifics.</em></h1><div style="max-width:500px;margin:0 auto"><div class="sol-q">"What should I pack for the Serengeti in July?"</div><div class="sol-a"><div class="sol-name">☀️ Sol</div>July is peak Great Migration. Pack neutral colors only — avoid blue and black, they attract tsetse flies. Binoculars 8x42 minimum. Start malaria prophylaxis before departure.</div></div>`},
+    {bg:'bg2', h:`<div class="kicker">Always available</div><h1 class="headline">Tap <em>☀️</em> on any screen.</h1><div class="steps" style="max-width:420px"><div class="step"><div class="sn">1</div><div><div class="st">Tap the ☀️ button on any screen</div></div></div><div class="step"><div class="sn">2</div><div><div class="st">Type your travel question</div><div class="ss">"Best restaurants in Fez?" · "Do I need a visa for Brazil?"</div></div></div><div class="step"><div class="sn">3</div><div><div class="st">Get expert answers instantly</div></div></div></div>`}
+  ],
+  voice: [
+    {bg:'bg3', h:`<div class="big-ico">🎙️</div><div class="kicker">Voice Interpreter</div><h1 class="headline">Hold. Speak. <em>They hear Arabic.</em></h1><p class="body-text">Hold the mic and speak English. Release — your phone speaks the translation out loud in Arabic, Swahili, Farsi, or 40+ languages.</p>`},
+    {bg:'bg3', h:`<div class="kicker">Three layers — see it, hear it, say it</div><div class="rc"><div style="font-size:13px;color:var(--mu);margin-bottom:6px">English → Egyptian Arabic</div><div style="font-size:13px;color:var(--mu);margin-bottom:8px;font-style:italic">"Where is the nearest restaurant?"</div><div style="font-size:22px;color:var(--tx);direction:rtl;margin-bottom:5px;text-align:right">فين أقرب مطعم؟</div><div style="font-size:13px;color:var(--btc);font-style:italic">/ feen a'rab mat'am? /</div><div style="font-size:12px;color:var(--grn);margin-top:8px">🔊 Playing translation out loud...</div></div>`},
+    {bg:'bg3', h:`<div class="kicker">How to use it</div><h1 class="headline" style="font-size:clamp(22px,4vw,40px)">Guide tab → <em>hold mic → speak.</em></h1><div class="steps" style="max-width:420px"><div class="step"><div class="sn">1</div><div><div class="st">Tap Guide tab at the bottom</div></div></div><div class="step"><div class="sn">2</div><div><div class="st">Select target language</div><div class="ss">Egyptian Arabic · Moroccan Darija · Swahili · Farsi · French</div></div></div><div class="step"><div class="sn">3</div><div><div class="st">Hold mic button and speak — release to translate</div></div></div></div>`}
+  ],
+  camera: [
+    {bg:'bg4', h:`<div class="big-ico">📷</div><div class="kicker">Camera Translation</div><h1 class="headline">Point. Shoot. <em>Read anything.</em></h1><p class="body-text">Point your camera at any Arabic sign, menu, or label. Tap Camera in Guide — take a photo — translation appears instantly with phonetics.</p><div class="steps" style="max-width:420px"><div class="step"><div class="sn">1</div><div><div class="st">Tap Camera tab in Guide — first on left</div></div></div><div class="step"><div class="sn">2</div><div><div class="st">Take Photo or choose from gallery</div></div></div><div class="step"><div class="sn">3</div><div><div class="st">Translation appears with phonetics instantly</div></div></div></div>`},
+    {bg:'bg4', h:`<div class="kicker">Perfect for</div><h1 class="headline" style="font-size:clamp(22px,4vw,44px)">Menus. Signs. <em>Anything written.</em></h1><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto"><div style="background:var(--card);border:1px solid var(--b1);border-radius:12px;padding:14px;text-align:center"><div style="font-size:28px;margin-bottom:6px">🍽️</div><div style="font-size:13px;font-weight:500;color:var(--tx)">Restaurant menus</div></div><div style="background:var(--card);border:1px solid var(--b1);border-radius:12px;padding:14px;text-align:center"><div style="font-size:28px;margin-bottom:6px">🚏</div><div style="font-size:13px;font-weight:500;color:var(--tx)">Street signs</div></div><div style="background:var(--card);border:1px solid var(--b1);border-radius:12px;padding:14px;text-align:center"><div style="font-size:28px;margin-bottom:6px">🏪</div><div style="font-size:13px;font-weight:500;color:var(--tx)">Shop labels</div></div><div style="background:var(--card);border:1px solid var(--b1);border-radius:12px;padding:14px;text-align:center"><div style="font-size:28px;margin-bottom:6px">📋</div><div style="font-size:13px;font-weight:500;color:var(--tx)">Documents</div></div></div>`}
+  ],
+  convo: [
+    {bg:'bg5', h:`<div class="big-ico">💬</div><div class="kicker">Conversation Mode</div><h1 class="headline">Two people. One phone. <em>Any language.</em></h1><p class="body-text">Live two-way interpreter. You speak English — they hear Arabic. They speak Darija — you hear English. No translator needed.</p>`},
+    {bg:'bg5', h:`<div class="kicker">Live in the Fez medina</div><div style="display:flex;flex-direction:column;gap:8px;max-width:460px;margin:0 auto"><div class="sol-q">How much for the leather bag?</div><div class="sol-a"><div class="sol-name">Vendor · Darija → English</div>800 dirhams — good quality, genuine leather.</div><div class="sol-q">That is too expensive. 400 dirhams?<div style="font-size:12px;color:var(--btc);direction:rtl;margin-top:3px">غالي بزاف. 400 درهم؟</div></div><div class="sol-a">OK my friend, 500 for you. Special price.</div></div>`},
+    {bg:'bg5', h:`<div class="kicker">Manual or Auto mode</div><h1 class="headline" style="font-size:clamp(22px,4vw,40px)">Hold button or <em>fully hands-free.</em></h1><div class="steps" style="max-width:420px"><div class="step"><div class="sn">1</div><div><div class="st">Guide tab → Chat</div></div></div><div class="step"><div class="sn">2</div><div><div class="st">Choose Manual or Auto mode</div><div class="ss">Manual: hold button · Auto: detects when you stop talking</div></div></div><div class="step"><div class="sn">3</div><div><div class="st">Full conversation builds on screen</div></div></div></div>`}
+  ],
+  money: [
+    {bg:'bg6', h:`<div class="big-ico">💰</div><div class="kicker">Money & Wallet</div><h1 class="headline">Every currency. <em>Instantly.</em></h1><p class="body-text">Type any amount in your home currency and instantly see the equivalent in MAD, EGP, BRL, KES, TZS, EUR, JPY, and USD.</p><div style="background:var(--card);border:1px solid var(--b1);border-radius:14px;padding:16px;max-width:340px;margin:0 auto"><div style="font-size:11px;color:var(--mu);margin-bottom:10px">100 USD equals</div><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:var(--mu)">🇲🇦 MAD</span><span style="font-family:'DM Mono',monospace;color:var(--tx);font-weight:500">1,002.50</span></div><div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:var(--mu)">🇪🇬 EGP</span><span style="font-family:'DM Mono',monospace;color:var(--tx);font-weight:500">4,890.00</span></div><div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:var(--mu)">🇧🇷 BRL</span><span style="font-family:'DM Mono',monospace;color:var(--tx);font-weight:500">508.20</span></div><div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:var(--mu)">🇰🇪 KES</span><span style="font-family:'DM Mono',monospace;color:var(--tx);font-weight:500">12,950.00</span></div></div></div>`},
+    {bg:'bg6', h:`<div class="kicker">Three tabs in Wallet</div><h1 class="headline" style="font-size:clamp(22px,4vw,40px)"><em>All · Fiat · Bitcoin.</em> Your choice.</h1><div class="steps" style="max-width:420px"><div class="step"><div class="sn">🌍</div><div><div class="st">All — every place near you</div><div class="ss">Cash, card, and Bitcoin together</div></div></div><div class="step"><div class="sn">💳</div><div><div class="st">Fiat — currency converter and ATMs</div><div class="ss">Convert instantly, find bank ATMs nearby</div></div></div><div class="step"><div class="sn">₿</div><div><div class="st">Bitcoin — crypto users only</div><div class="ss">BTC merchants, Lightning, crypto ATMs</div></div></div></div>`}
+  ],
+  trip: [
+    {bg:'bg7', h:`<div class="big-ico">✈️</div><div class="kicker">Sol Booking Parser</div><h1 class="headline">Paste any confirmation. <em>Trip built instantly.</em></h1><p class="body-text">Copy any booking confirmation from Airbnb, hotels, airlines, or Uber. Paste it — Sol builds your complete day-by-day itinerary in seconds.</p><div class="badges"><div class="badge">Airbnb</div><div class="badge">Booking.com</div><div class="badge">All Airlines</div><div class="badge">Hotels</div><div class="badge">Uber</div></div>`},
+    {bg:'bg7', h:`<div class="kicker">From email to itinerary in seconds</div><div class="steps" style="max-width:420px"><div class="step"><div class="sn">1</div><div><div class="st">Tap + on the Trips screen</div></div></div><div class="step"><div class="sn">2</div><div><div class="st">Paste your booking confirmation text</div><div class="ss">Copy from your email — paste here</div></div></div><div class="step"><div class="sn">3</div><div><div class="st">Sol reads it and builds your trip</div><div class="ss">Destination · Dates · Hotel · Activities</div></div></div><div class="step"><div class="sn">4</div><div><div class="st">Add more confirmations to build one trip</div></div></div></div>`}
+  ],
+  offline: [
+    {bg:'bg8', h:`<div class="big-ico">📡</div><div class="kicker">Offline Mode</div><h1 class="headline">No signal in Morocco? <em>Still works.</em></h1><p class="body-text">Download your trip before you go. Full itinerary, maps, and 200+ phrases — all work with zero internet. Critical for safaris, medinas, and remote areas.</p><div class="db"><div class="df"></div></div><div class="ob">✓ Downloaded · Offline Ready</div>`},
+    {bg:'bg8', h:`<div class="kicker">Download before you go</div><div class="steps" style="max-width:420px"><div class="step"><div class="sn">1</div><div><div class="st">Open your trip before you travel</div></div></div><div class="step"><div class="sn">2</div><div><div class="st">Tap the Download button</div><div class="ss">Saves itinerary, maps, and phrase library</div></div></div><div class="step"><div class="sn">3</div><div><div class="st">Green badge confirms offline ready</div></div></div><div class="step"><div class="sn">4</div><div><div class="st">Airplane mode on — everything still works</div></div></div></div>`}
+  ],
+  feedback: [
+    {bg:'bg9', h:`<div class="big-ico">📝</div><div class="kicker">Your feedback matters</div><h1 class="headline">See something? <em>Tell us instantly.</em></h1><div class="steps" style="max-width:380px"><div class="step"><div class="sn" style="background:var(--red);color:#fff">FB</div><div><div class="st">Tap the red FB tab on any screen</div></div></div><div class="step"><div class="sn">⭐</div><div><div class="st">Give a star rating</div></div></div><div class="step"><div class="sn">✍️</div><div><div class="st">Describe what worked or what broke</div></div></div><div class="step"><div class="sn">✓</div><div><div class="st">Submit — we receive it instantly</div></div></div></div>`},
+    {bg:'bg9', h:`<div style="font-size:56px;margin-bottom:16px">🙏</div><div class="kicker">Thank you for testing</div><h1 class="headline">Your real trip makes <em>this app real.</em></h1><p class="body-text">Every piece of feedback — good or bad — makes PlanitTravel better for the next traveler.</p><div style="background:rgba(247,147,26,.1);border:1.5px solid rgba(247,147,26,.3);border-radius:16px;padding:16px 24px;display:inline-block"><div style="font-family:'DM Mono',monospace;font-size:16px;color:var(--btc)">planittravel.app</div></div>`}
+  ]
+};
+
+let cur = {key:null, idx:0};
+let audio = null;
+
+function startVideo(key) {
+  cur = {key:key, idx:0};
+  document.getElementById('menu').style.display = 'none';
+  document.getElementById('player').style.display = 'block';
+  buildSlides(key);
+  showSlide(0);
+  playAudio(key);
+}
+
+function buildSlides(key) {
+  const sc = document.getElementById('sc');
+  sc.innerHTML = '';
+  SLIDES[key].forEach((s,i) => {
+    const d = document.createElement('div');
+    d.className = 'slide ' + s.bg;
+    d.innerHTML = s.h;
+    sc.appendChild(d);
+  });
+  const dots = document.getElementById('dots');
+  dots.innerHTML = '';
+  SLIDES[key].forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' on':'');
+    d.onclick = () => showSlide(i);
+    dots.appendChild(d);
+  });
+}
+
+function showSlide(n) {
+  const slides = document.querySelectorAll('.slide');
+  slides.forEach((s,i) => s.classList.toggle('active', i===n));
+  document.querySelectorAll('.dot').forEach((d,i) => d.className='dot'+(i===n?' on':''));
+  cur.idx = n;
+  const total = SLIDES[cur.key].length;
+  document.getElementById('info').textContent = (n+1)+' / '+total;
+  const nb = document.getElementById('nb');
+  if(n === total-1) { nb.textContent='↩ Menu'; nb.onclick=goMenu; }
+  else { nb.textContent='Next →'; nb.onclick=nextSlide; }
+}
+
+function nextSlide() {
+  const total = SLIDES[cur.key].length;
+  if(cur.idx < total-1) showSlide(cur.idx+1);
+  else goMenu();
+}
+
+function playAudio(key) {
+  if(audio) { audio.pause(); audio=null; }
+  const st = document.getElementById('astatus');
+  const bar = document.getElementById('abar');
+  st.textContent = '⏳ Loading...';
+  st.style.color = 'var(--mu)';
+  audio = new Audio(BASE + key + '.mp3');
+  audio.play().then(() => {
+    st.textContent = '▶ Playing';
+    st.style.color = 'var(--grn)';
+  }).catch(() => {
+    st.textContent = '🔇 Tap to play audio';
+    st.style.color = 'var(--btc)';
+    st.onclick = () => { audio.play(); st.textContent='▶ Playing'; st.style.color='var(--grn)'; };
+  });
+  audio.addEventListener('loadedmetadata', () => {
+    const dur = audio.duration;
+    const count = SLIDES[key].length;
+    const tps = dur / count;
+    audio.addEventListener('timeupdate', () => {
+      const idx = Math.min(Math.floor(audio.currentTime/tps), count-1);
+      if(idx !== cur.idx) showSlide(idx);
+      bar.style.width = (audio.currentTime/dur*100)+'%';
+    });
+    audio.addEventListener('ended', () => {
+      st.textContent = '✓ Complete';
+      bar.style.width = '100%';
+    });
+  });
+}
+
+function togglePause() {
+  const btn = document.getElementById('ppbtn');
+  if(!audio) return;
+  if(audio.paused) {
+    audio.play();
+    btn.textContent = '⏸';
+    document.getElementById('astatus').textContent = '▶ Playing';
+  } else {
+    audio.pause();
+    btn.textContent = '▶';
+    document.getElementById('astatus').textContent = '⏸ Paused';
+  }
+}
+
+function goMenu() {
+  if(audio) { audio.pause(); audio=null; }
+  document.getElementById('player').style.display='none';
+  document.getElementById('menu').style.display='block';
+  document.getElementById('abar').style.width='0%';
+}
+
+document.addEventListener('keydown', e => {
+  if(document.getElementById('player').style.display!=='none') {
+    if(e.key==='Escape') goMenu();
+    if(e.key==='ArrowRight'||e.key===' ') nextSlide();
+  }
+});
+</script>
+</body>
+</html>
