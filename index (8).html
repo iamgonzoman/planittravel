@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlanitTravel — The world is easier with Sol</title>
+<meta name="description" content="Your AI travel companion. Voice interpreter in 40+ languages, camera translation, offline maps, and an AI that actually knows where you are going.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0908;
+  --warm:#1A1512;
+  --card:#201C18;
+  --b1:rgba(255,255,255,.07);
+  --b2:rgba(255,255,255,.12);
+  --tx:#F5F0E8;
+  --mu:#9A8F82;
+  --btc:#F7931A;
+  --sun:#FFB347;
+  --grn:#4ADE80;
+  --sky:#7DD3FC;
+  --rose:#FDA4AF;
+}
+body.light{
+  --bg:#FAF8F5;
+  --warm:#F2EDE6;
+  --card:#EDE8E0;
+  --b1:rgba(0,0,0,.07);
+  --b2:rgba(0,0,0,.12);
+  --tx:#1A1512;
+  --mu:#7A6E62;
+  --grn:#16A34A;
+  --sky:#0284C7;
+  --rose:#E11D48;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Instrument Sans',sans-serif;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,9,8,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--b1)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--tx);letter-spacing:-.3px}
+.logo-mark em{color:var(--btc);font-style:normal}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-link{font-size:13px;color:var(--mu);text-decoration:none;padding:6px 14px;border-radius:99px;transition:color .2s}
+.nav-link:hover{color:var(--tx)}
+.nav-cta{background:var(--tx);color:var(--bg);border:none;border-radius:99px;padding:9px 22px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.85}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;inset:0;pointer-events:none}
+.hero-glow::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(247,147,26,.15),transparent 65%);top:50%;left:50%;transform:translate(-50%,-55%)}
+.hero-glow::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(125,211,252,.08),transparent 65%);bottom:10%;right:10%}
+.hero-inner{position:relative;z-index:1;max-width:760px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.2);border-radius:99px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--btc);margin-bottom:32px;letter-spacing:.3px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(40px,7vw,80px);font-weight:800;letter-spacing:-3px;line-height:.98;margin-bottom:24px;color:var(--tx)}
+.hero h1 .warm{color:var(--sun)}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--mu);line-height:1.7;margin-bottom:48px;max-width:520px;margin-left:auto;margin-right:auto;font-style:italic}
+
+/* DESTINATIONS STRIP */
+.dest-strip{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.dest{padding:8px 16px;background:rgba(255,255,255,.05);border:1px solid var(--b1);border-radius:99px;font-size:13px;color:var(--mu);transition:all .2s;cursor:default}
+.dest:hover{border-color:rgba(247,147,26,.3);color:var(--tx);background:rgba(247,147,26,.05)}
+
+/* HERO CTA */
+.hero-cta{display:flex;flex-direction:column;align-items:center;gap:12px}
+.btn-primary{background:var(--btc);color:#000;border:none;border-radius:14px;padding:16px 36px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(247,147,26,.3)}
+.hero-note{font-size:12.5px;color:var(--mu)}
+.hero-note strong{color:var(--tx)}
+
+/* SOL DEMO */
+.sol-section{padding:100px 24px;max-width:1000px;margin:0 auto}
+.sol-header{text-align:center;margin-bottom:60px}
+.section-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--btc);margin-bottom:14px}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px}
+.section-sub{font-size:16px;color:var(--mu);max-width:500px;margin:0 auto;line-height:1.65}
+.sol-demo{background:var(--warm);border:1px solid var(--b2);border-radius:24px;padding:28px;max-width:700px;margin:0 auto}
+.sol-demo-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--b1)}
+.sol-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--btc),var(--sun));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sol-info strong{display:block;font-size:14px;font-weight:600;color:var(--tx)}
+.sol-info span{font-size:12px;color:var(--grn)}
+.sol-messages{display:flex;flex-direction:column;gap:14px;margin-bottom:20px}
+.msg-user{background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.15);border-radius:16px 16px 4px 16px;padding:12px 16px;font-size:14px;color:var(--mu);align-self:flex-end;max-width:85%;font-style:italic}
+.msg-sol{background:var(--card);border:1px solid var(--b1);border-radius:4px 16px 16px 16px;padding:14px 16px;font-size:14px;color:var(--tx);line-height:1.65;max-width:95%}
+.msg-sol strong{color:var(--btc)}
+.sol-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.sol-tab{padding:8px 16px;background:rgba(255,255,255,.04);border:1px solid var(--b1);border-radius:99px;font-size:12.5px;color:var(--mu);cursor:pointer;transition:all .2s}
+.sol-tab:hover,.sol-tab.active{background:rgba(247,147,26,.1);border-color:rgba(247,147,26,.25);color:var(--btc)}
+
+/* FEATURES */
+.features{padding:80px 24px;max-width:1000px;margin:0 auto}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:56px}
+.feat-card{border-radius:22px;padding:28px;position:relative;overflow:hidden;border:1px solid var(--b1)}
+.feat-card.f1{background:linear-gradient(135deg,rgba(247,147,26,.12),rgba(255,179,71,.05))}
+.feat-card.f2{background:linear-gradient(135deg,rgba(125,211,252,.1),rgba(96,165,250,.04))}
+.feat-card.f3{background:linear-gradient(135deg,rgba(167,243,208,.08),rgba(74,222,128,.04))}
+.feat-card.f4{background:linear-gradient(135deg,rgba(253,164,175,.08),rgba(251,113,133,.04))}
+.feat-card.f5{background:linear-gradient(135deg,rgba(216,180,254,.08),rgba(167,139,250,.04))}
+.feat-card.f6{background:linear-gradient(135deg,rgba(247,147,26,.06),rgba(255,179,71,.03))}
+.feat-ico{font-size:36px;margin-bottom:16px}
+.feat-title{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;margin-bottom:10px;color:var(--tx)}
+.feat-body{font-size:14px;color:var(--mu);line-height:1.7}
+.feat-highlight{font-size:12px;font-weight:600;color:var(--btc);margin-top:12px;display:block}
+
+/* LANGUAGE SHOWCASE */
+.lang-section{padding:80px 24px;background:var(--warm);margin:40px 0}
+.lang-inner{max-width:900px;margin:0 auto}
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:40px}
+.lang-card{background:var(--card);border:1px solid var(--b1);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.lang-flag{font-size:22px;flex-shrink:0}
+.lang-name{font-size:13px;font-weight:500;color:var(--tx);display:block;margin-bottom:2px}
+.lang-phrase{font-size:11.5px;color:var(--mu);font-style:italic}
+
+/* TESTIMONIALS */
+.testimonials{padding:80px 24px;max-width:1000px;margin:0 auto;text-align:center}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:48px;text-align:left}
+.testi-card{background:var(--warm);border:1px solid var(--b1);border-radius:20px;padding:24px}
+.testi-stars{color:var(--sun);font-size:14px;margin-bottom:12px;letter-spacing:2px}
+.testi-text{font-size:14px;line-height:1.7;color:var(--tx);margin-bottom:16px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.testi-name{font-size:13px;font-weight:600;color:var(--tx);display:block}
+.testi-dest{font-size:11.5px;color:var(--mu)}
+
+/* COMPARISON */
+.compare{padding:80px 24px;max-width:800px;margin:0 auto}
+.compare-table{border-radius:20px;overflow:hidden;border:1px solid var(--b1);margin-top:40px}
+.compare-header{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--card);padding:16px 20px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
+.compare-header .col-us{color:var(--btc)}
+.compare-row{display:grid;grid-template-columns:1fr 1fr 1fr;padding:14px 20px;border-top:1px solid var(--b1);font-size:13px;align-items:center}
+.compare-row:nth-child(even){background:rgba(255,255,255,.02)}
+.col-feature{color:var(--mu)}
+.col-them{color:var(--mu)}
+.col-us{color:var(--grn);font-weight:600}
+.tick{color:var(--grn)}
+.cross{color:rgba(255,255,255,.2)}
+
+/* BITCOIN SECTION */
+.btc-section{padding:80px 24px;background:linear-gradient(to bottom,var(--bg),rgba(247,147,26,.06),var(--bg));margin:40px 0}
+.btc-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.btc-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.2);border-radius:99px;padding:6px 14px;font-size:11px;font-weight:600;color:var(--btc);margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase}
+.btc-list{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.btc-row{display:flex;gap:12px;align-items:flex-start}
+.btc-dot{width:6px;height:6px;border-radius:50%;background:var(--btc);margin-top:7px;flex-shrink:0}
+.btc-text{font-size:14px;color:var(--mu);line-height:1.6}
+.btc-text strong{color:var(--tx)}
+.toggle-demo{background:var(--warm);border:1px solid rgba(247,147,26,.2);border-radius:20px;padding:22px}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.toggle-label{font-size:13px;font-weight:600;color:var(--tx)}
+.toggle{width:46px;height:26px;border-radius:99px;background:var(--btc);position:relative;cursor:pointer;transition:background .2s}
+.toggle.off{background:rgba(255,255,255,.1)}
+.toggle-knob{width:20px;height:20px;background:#fff;border-radius:50%;position:absolute;top:3px;right:3px;transition:right .2s}
+.toggle.off .toggle-knob{right:22px}
+.map-preview{background:rgba(255,255,255,.03);border-radius:12px;height:120px;position:relative;overflow:hidden;margin-bottom:10px}
+.map-city{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;color:var(--mu)}
+.pin{position:absolute;width:10px;height:10px;border-radius:50%}
+.pin-btc{background:var(--btc);box-shadow:0 0 8px rgba(247,147,26,.6)}
+.pin-all{background:var(--sky);box-shadow:0 0 6px rgba(125,211,252,.4)}
+.toggle-tip{font-size:11.5px;color:var(--mu);text-align:center}
+
+/* PRICING */
+.pricing{padding:100px 24px;text-align:center;max-width:700px;margin:0 auto}
+.price-card{background:var(--warm);border:1.5px solid rgba(247,147,26,.3);border-radius:24px;padding:36px;margin:40px auto;max-width:420px;position:relative;overflow:hidden}
+.price-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--btc),var(--sun))}
+.price-badge{background:rgba(247,147,26,.15);border:1px solid rgba(247,147,26,.25);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:600;color:var(--btc);display:inline-block;margin-bottom:16px;letter-spacing:.5px}
+.price-amount{font-family:'DM Mono',monospace;font-size:56px;font-weight:500;color:var(--tx);line-height:1;margin-bottom:6px}
+.price-amount sup{font-size:24px;vertical-align:top;margin-top:12px}
+.price-amount sub{font-size:18px;color:var(--mu)}
+.price-sub{font-size:13px;color:var(--mu);margin-bottom:24px}
+.price-features{text-align:left;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.pf{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--tx)}
+.pf::before{content:'✓';color:var(--grn);font-weight:700;font-size:13px;flex-shrink:0}
+.founding-note{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--grn);margin-top:6px}
+
+/* WAITLIST FORM */
+.waitlist{padding:100px 24px;text-align:center;background:var(--warm);margin:40px 0}
+.waitlist-inner{max-width:560px;margin:0 auto}
+.waitlist h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:12px}
+.waitlist p{font-size:16px;color:var(--mu);margin-bottom:32px;line-height:1.6}
+.form-row{display:flex;gap:8px}
+.email-input{flex:1;background:var(--card);border:1px solid var(--b2);border-radius:12px;padding:14px 18px;font-size:14px;color:var(--tx);font-family:'Instrument Sans',sans-serif;outline:none;transition:border-color .2s}
+.email-input::placeholder{color:var(--mu)}
+.email-input:focus{border-color:rgba(247,147,26,.5)}
+.submit-btn{background:var(--btc);color:#000;border:none;border-radius:12px;padding:14px 26px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(247,147,26,.3)}
+.form-note{font-size:12px;color:var(--mu);margin-top:12px}
+.form-note a{color:var(--btc);text-decoration:none}
+
+/* FOOTER */
+footer{padding:40px 24px;border-top:1px solid var(--b1);max-width:1000px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.footer-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--tx)}
+.footer-logo em{color:var(--btc);font-style:normal}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:13px;color:var(--mu);text-decoration:none}
+.footer-links a:hover{color:var(--tx)}
+.footer-note{font-size:12px;color:var(--mu);width:100%}
+
+/* STATS */
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:48px;padding:60px 24px;border-top:1px solid var(--b1);border-bottom:1px solid var(--b1)}
+.stat{text-align:center}
+.stat-val{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:var(--tx);display:block;margin-bottom:4px;letter-spacing:-1px}
+.stat-val em{color:var(--btc);font-style:normal}
+.stat-key{font-size:13px;color:var(--mu)}
+
+@media(max-width:640px){
+  .form-row{flex-direction:column}
+  .btc-inner{grid-template-columns:1fr}
+  .nav-link{display:none}
+  .compare-row,.compare-header{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="/">
+    <span style="font-size:24px">🧭</span>
+    <div class="logo-mark">Plan<em>It</em>Travel</div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="#features">Features</a>
+    <a class="nav-link" href="#pricing">Pricing</a>
+    <button onclick="toggleTheme()" id="themeBtn" style="background:rgba(255,255,255,.08);border:1px solid var(--b2);border-radius:99px;padding:7px 14px;font-size:13px;color:var(--mu);cursor:pointer;transition:all .2s">🌙 Dark</button>
+    <a class="nav-cta" href="#waitlist">Join Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">✨ Now accepting founding members</div>
+    <h1>The world is easier<br>with <span class="warm">Sol.</span></h1>
+    <p class="hero-sub">Your AI travel companion who actually knows where you are going — speaks the language, reads the signs, and works when there is no signal.</p>
+
+    <div class="dest-strip">
+      <div class="dest">🇲🇦 Fez medina</div>
+      <div class="dest">🇪🇬 Cairo</div>
+      <div class="dest">🇧🇷 Rio de Janeiro</div>
+      <div class="dest">🇰🇪 Nairobi</div>
+      <div class="dest">🇯🇵 Tokyo</div>
+      <div class="dest">🇮🇳 Mumbai</div>
+      <div class="dest">🇹🇭 Bangkok</div>
+      <div class="dest">🌍 Everywhere</div>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn-primary" href="#waitlist">Start for free →</a>
+      <p class="hero-note">No credit card needed · <strong>$14.99/year</strong> after free trial</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOL DEMO -->
+<section class="sol-section">
+  <div class="sol-header">
+    <div class="section-label">Meet Sol</div>
+    <h2 class="section-title">Ask anything.<br>Get real answers.</h2>
+    <p class="section-sub">Sol is not a chatbot. She is an AI travel companion who gives you honest, specific advice about your exact destination.</p>
+  </div>
+
+  <div class="sol-demo">
+    <div class="sol-demo-header">
+      <div class="sol-avatar">☀️</div>
+      <div class="sol-info">
+        <strong>Sol</strong>
+        <span>● Online · AI Travel Companion</span>
+      </div>
+    </div>
+    <div class="sol-messages" id="solMessages">
+      <div class="msg-user">"What should I know about the Fez medina before I arrive?"</div>
+      <div class="msg-sol">
+        The Fez medina is the world's largest car-free urban area — <strong>zero vehicles, 9,000 alleys.</strong> A few things that will actually help you:<br><br>
+        🧭 <strong>Get lost on purpose.</strong> The medina cannot be navigated by GPS — download offline maps before you go.<br><br>
+        💬 <strong>Learn three Darija phrases.</strong> "Bshal hade?" (How much?), "Ghali bzzaf!" (Too expensive!), "Wakha ana mshy" (I'm leaving). That last one drops prices instantly.<br><br>
+        💳 <strong>Cash only in the medina.</strong> Carry MAD. Exchange at Wafa Bank — 8% better rate than the airport.<br><br>
+        Want me to build your day-by-day Fez itinerary? 🗺️
+      </div>
+    </div>
+    <div class="sol-tabs">
+      <div class="sol-tab active" onclick="switchSol(this, 'fez')">🇲🇦 Fez</div>
+      <div class="sol-tab" onclick="switchSol(this, 'cairo')">🇪🇬 Cairo</div>
+      <div class="sol-tab" onclick="switchSol(this, 'nairobi')">🇰🇪 Nairobi</div>
+      <div class="sol-tab" onclick="switchSol(this, 'rio')">🇧🇷 Rio</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div style="text-align:center">
+    <div class="section-label">What it does</div>
+    <h2 class="section-title">One app that actually<br>travels with you.</h2>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card f1">
+      <div class="feat-ico">🎙️</div>
+      <div class="feat-title">Voice Interpreter</div>
+      <div class="feat-body">Hold the button and speak English. Release — your phone speaks Arabic, Swahili, Farsi, or Darija back. Shows the text AND speaks it out loud.</div>
+      <span class="feat-highlight">40+ languages · Phonetics included</span>
+    </div>
+    <div class="feat-card f2">
+      <div class="feat-ico">📷</div>
+      <div class="feat-title">Camera Translation</div>
+      <div class="feat-body">Point your camera at any sign, menu, or label. Tap — the translation appears instantly. Works with Arabic script, Chinese, Thai, Russian, any writing system.</div>
+      <span class="feat-highlight">Any script · Any language · Instant</span>
+    </div>
+    <div class="feat-card f3">
+      <div class="feat-ico">📡</div>
+      <div class="feat-title">Works Fully Offline</div>
+      <div class="feat-body">No signal on safari? In the medina? Download your trip before you go. Full itinerary, maps, and 200+ phrases work with zero internet.</div>
+      <span class="feat-highlight">Critical for Serengeti · Fez · Remote areas</span>
+    </div>
+    <div class="feat-card f4">
+      <div class="feat-ico">💬</div>
+      <div class="feat-title">Conversation Mode</div>
+      <div class="feat-body">Two people, one phone, any language. You speak English, they hear Arabic. They respond in Darija, you hear English. Live two-way interpreter — no translator needed.</div>
+      <span class="feat-highlight">Manual or hands-free Auto mode</span>
+    </div>
+    <div class="feat-card f5">
+      <div class="feat-ico">✈️</div>
+      <div class="feat-title">Instant Trip Planning</div>
+      <div class="feat-body">Paste any booking confirmation from Airbnb, your airline, or your hotel. Sol reads it and builds your complete day-by-day itinerary in seconds.</div>
+      <span class="feat-highlight">Works with every booking service</span>
+    </div>
+    <div class="feat-card f6">
+      <div class="feat-ico">👨‍👩‍👧‍👦</div>
+      <div class="feat-title">Family Trip Sharing</div>
+      <div class="feat-body">Share your trip with family via one link. Everyone sees the same itinerary in real time. Live location sharing so you always know where everyone is.</div>
+      <span class="feat-highlight">WhatsApp · Telegram · Signal</span>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section class="lang-section">
+  <div class="lang-inner">
+    <div class="section-label" style="text-align:center">Languages</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:8px">Wherever you go.<br>We speak the language.</h2>
+    <div class="lang-grid">
+      <div class="lang-card"><div class="lang-flag">🇲🇦</div><div><span class="lang-name">Moroccan Darija</span><span class="lang-phrase">"Bshal hade?" — How much?</span></div></div>
+      <div class="lang-card"><div class="lang-flag">🇪🇬</div><div><span class="lang-name">Egyptian Arabic</span><span class="lang-phrase">"Feen el hammam?" — Where is the bathroom?</span></div></div>
+      <div class="lang-card"><div class="lang-flag">🇰🇪</div><div><span class="lang-name">Swahili</span><span class="lang-phrase">"Habari yako?" — How are you?</span></div></div>
+      <div class="lang-card"><div class="lang-flag">🇧🇷</div><div><span class="lang-name">Brazilian Portuguese</span><span class="lang-phrase">"Quanto custa?" — How much?</span></div></div>
+      <div class="lang-card"><div class="lang-flag">🇮🇷</div><div><span class="lang-name">Farsi</span><span class="lang-phrase">"Bebakhshid" — Excuse me</span></div></div>
+      <div class="lang-card"><div class="lang-flag">🇫🇷</div><div><span class="lang-name">French</span><span class="lang-phrase">"C'est combien?" — How much?</span></div></div>
+      <div class="lang-card"><div class="lang-flag">🇯🇵</div><div><span class="lang-name">Japanese</span><span class="lang-phrase">"Ikura desu ka?" — How much?</span></div></div>
+      <div class="lang-card"><div class="lang-flag">🇪🇸</div><div><span class="lang-name">Spanish (3 accents)</div><span class="lang-phrase">Mexico · Argentina · Spain</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">Early testers</div>
+  <h2 class="section-title">Real trips. Real feedback.</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Sol told me to avoid blue clothes in the Serengeti because they attract tsetse flies. No guidebook ever told me that. This app knows things."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:rgba(247,147,26,.15)">🦁</div>
+        <div><span class="testi-name">Safari tester</span><span class="testi-dest">📍 Serengeti, Tanzania</span></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I said 'Wakha ana mshy' in a leather shop in Fez and the price dropped from 800 to 400 dirhams. Sol taught me that phrase 10 minutes before."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:rgba(125,211,252,.1)">🕌</div>
+        <div><span class="testi-name">Morocco tester</span><span class="testi-dest">📍 Fez medina, Morocco</span></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Camera translation read the entire Arabic breakfast menu and told me what everything cost. My family had no idea how I knew what to order."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:rgba(253,164,175,.1)">🏛️</div>
+        <div><span class="testi-name">Egypt tester</span><span class="testi-dest">📍 Cairo, Egypt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="compare" id="compare">
+  <div style="text-align:center">
+    <div class="section-label">vs everything else</div>
+    <h2 class="section-title">Replaces 8 apps.<br>Costs less than one.</h2>
+  </div>
+  <div class="compare-table">
+    <div class="compare-header">
+      <div class="col-feature">Feature</div>
+      <div class="col-them">Other apps</div>
+      <div class="col-us">PlanitTravel</div>
+    </div>
+    <div class="compare-row"><div class="col-feature">AI travel companion</div><div class="col-them">❌</div><div class="col-us">✓ Sol</div></div>
+    <div class="compare-row"><div class="col-feature">Live voice interpreter</div><div class="col-them">Separate app</div><div class="col-us">✓ Built in</div></div>
+    <div class="compare-row"><div class="col-feature">Camera translation</div><div class="col-them">Separate app</div><div class="col-us">✓ Built in</div></div>
+    <div class="compare-row"><div class="col-feature">Works offline</div><div class="col-them">❌</div><div class="col-us">✓ Fully</div></div>
+    <div class="compare-row"><div class="col-feature">Booking parser</div><div class="col-them">TripIt $48/yr</div><div class="col-us">✓ Included</div></div>
+    <div class="compare-row"><div class="col-feature">Currency converter</div><div class="col-them">XE $20/yr</div><div class="col-us">✓ Included</div></div>
+    <div class="compare-row"><div class="col-feature">Nomad visa guide</div><div class="col-them">Nomads $180/yr</div><div class="col-us">✓ Included</div></div>
+    <div class="compare-row"><div class="col-feature">Bitcoin payments</div><div class="col-them">❌</div><div class="col-us">✓ Optional</div></div>
+    <div class="compare-row"><div class="col-feature" style="color:var(--tx);font-weight:600">Total cost</div><div class="col-them" style="color:var(--rose)">$278/yr</div><div class="col-us">$14.99/yr</div></div>
+  </div>
+</section>
+
+<!-- BITCOIN SECTION -->
+<section class="btc-section">
+  <div class="btc-inner">
+    <div>
+      <div class="btc-badge">⚡ For Bitcoin users</div>
+      <h2 class="section-title" style="font-size:clamp(24px,3.5vw,38px);margin-bottom:12px">PlanitTravel works with<br>cash, card, or <span style="color:var(--btc)">Bitcoin.</span></h2>
+      <p style="font-size:14px;color:var(--mu);line-height:1.7;margin-bottom:8px">Your money, your choice. For Bitcoin users we built the most complete BTC travel stack available. Flip Bitcoin Mode on and the whole app filters to your world.</p>
+      <div class="btc-list">
+        <div class="btc-row"><div class="btc-dot"></div><div class="btc-text"><strong>14,885 Bitcoin merchants</strong> worldwide — restaurants, hotels, shops</div></div>
+        <div class="btc-row"><div class="btc-dot"></div><div class="btc-text"><strong>37,700+ crypto ATMs</strong> — convert to local cash anywhere</div></div>
+        <div class="btc-row"><div class="btc-dot"></div><div class="btc-text"><strong>Lightning payments</strong> — no bank, no foreign fees, instant</div></div>
+        <div class="btc-row"><div class="btc-dot"></div><div class="btc-text"><strong>Bitcoin Mode toggle</strong> — filters everything to BTC-only</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="toggle-demo">
+        <div class="toggle-row">
+          <div class="toggle-label">Fez, Morocco</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:11px;color:var(--btc);font-weight:600">₿ Mode</span>
+            <div class="toggle off" id="btcToggle" onclick="toggleBTC()"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+        <div class="map-preview">
+          <div class="map-city">Fez Medina</div>
+          <div class="pin pin-all" style="top:25%;left:30%"></div>
+          <div class="pin pin-all" style="top:45%;left:58%"></div>
+          <div class="pin pin-all" style="top:62%;left:28%"></div>
+          <div class="pin pin-all" style="top:35%;left:72%"></div>
+          <div class="pin pin-all" style="top:70%;left:55%"></div>
+          <div class="pin pin-btc" id="bp1" style="top:42%;left:45%;display:none"></div>
+          <div class="pin pin-btc" id="bp2" style="top:65%;left:68%;display:none"></div>
+        </div>
+        <div class="toggle-tip" id="toggleTip">Tap to see Bitcoin-only places</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Simple pricing</div>
+  <h2 class="section-title">One price.<br>Everything included.</h2>
+  <div class="price-card">
+    <div class="price-badge">Voyager Plan — Most Popular</div>
+    <div class="price-amount"><sup>$</sup>14<sub>.99/yr</sub></div>
+    <div class="price-sub">= $1.25/month · less than one airport coffee</div>
+    <div class="price-features">
+      <div class="pf">Unlimited Sol AI trip planning</div>
+      <div class="pf">Live voice interpreter — 40+ languages</div>
+      <div class="pf">Camera translation — any script</div>
+      <div class="pf">Full offline mode</div>
+      <div class="pf">Family trip sharing + live location</div>
+      <div class="pf">183-day tax tracker</div>
+      <div class="pf">Digital nomad visa guide — 55+ countries</div>
+      <div class="pf">Bitcoin map + payments (optional)</div>
+      <div class="pf">No ads. Ever.</div>
+    </div>
+    <a href="#waitlist" class="btn-primary" style="display:block;text-align:center;border-radius:12px;font-size:15px;padding:15px">Join Waitlist — $4.99 Founding Price</a>
+    <div class="founding-note">⚡ Founding member price locked forever · Regular $14.99 after launch</div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist" id="waitlist">
+  <div class="waitlist-inner">
+    <div class="section-label">Join the waitlist</div>
+    <h2>Ready to travel smarter?</h2>
+    <p>Founding members get Voyager at $4.99/year — locked forever. Free tier available. No credit card required.</p>
+    <form action="https://app.us8.list-manage.com/subscribe/post?u=ba28fa12352e8e97f9bf97919&amp;id=436932f401&amp;f_id=00d919e1f0" method="post" target="_blank">
+      <div class="form-row">
+        <input class="email-input" type="email" name="EMAIL" placeholder="your@email.com" required>
+        <div style="position:absolute;left:-5000px"><input type="text" name="b_ba28fa12352e8e97f9bf97919_436932f401" tabindex="-1" value=""></div>
+        <button class="submit-btn" type="submit">Join Free →</button>
+      </div>
+    </form>
+    <p class="form-note">No spam. Ever. Unsubscribe any time. · <a href="https://github.com/iamgonzoman/planittravel" target="_blank">Open source on GitHub</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Plan<em>It</em>Travel</div>
+  <div class="footer-links">
+    <a href="https://github.com/iamgonzoman/planittravel" target="_blank">GitHub</a>
+    <a href="#waitlist">Waitlist</a>
+    <a href="mailto:hello@planittravel.app">Contact</a>
+  </div>
+  <p class="footer-note">© 2025 PlanitTravel · MIT License · Works with cash, card, or Bitcoin · Built for every kind of traveler</p>
+</footer>
+
+<script>
+// THEME TOGGLE
+function toggleTheme() {
+  const body = document.body;
+  const btn = document.getElementById('themeBtn');
+  const isLight = body.classList.toggle('light');
+  btn.textContent = isLight ? '🌙 Dark' : '☀️ Light';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// Load saved theme
+if(localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light');
+  document.getElementById('themeBtn').textContent = '🌙 Dark';
+}
+
+// SOL DEMO
+const solContent = {
+  fez: {
+    q: '"What should I know about the Fez medina before I arrive?"',
+    a: 'The Fez medina is the world\'s largest car-free urban area — <strong>zero vehicles, 9,000 alleys.</strong> A few things that will actually help you:<br><br>🧭 <strong>Get lost on purpose.</strong> The medina cannot be navigated by GPS — download offline maps before you go.<br><br>💬 <strong>Learn three Darija phrases.</strong> "Bshal hade?" (How much?), "Ghali bzzaf!" (Too expensive!), "Wakha ana mshy" (I\'m leaving). That last one drops prices instantly.<br><br>💳 <strong>Cash only in the medina.</strong> Carry MAD. Exchange at Wafa Bank — 8% better rate than the airport.<br><br>Want me to build your day-by-day Fez itinerary? 🗺️'
+  },
+  cairo: {
+    q: '"I\'m visiting Cairo for 5 days. What should I know?"',
+    a: 'Cairo is enormous and magnificent — here is what actually matters:<br><br>🛕 <strong>Giza at dawn, not noon.</strong> You want the pyramids before the tour buses arrive. Be there at 7am.<br><br>💰 <strong>EGP cash is king.</strong> The Egyptian Pound has been volatile — exchange at banks, not hotels. Current rate is roughly 48 EGP to $1.<br><br>🗣️ <strong>Egyptian Arabic tip.</strong> "Law samaht" (excuse me) and a smile opens every door. People here are extraordinarily hospitable.<br><br>📱 <strong>Download Khan el-Khalili offline.</strong> The bazaar has zero signal. Sol will read signs and menus for you even with no internet. Want your Cairo itinerary? 🏛️'
+  },
+  nairobi: {
+    q: '"Planning a Nairobi trip with a Serengeti safari extension."',
+    a: 'Perfect combination — here is the essential intel:<br><br>🦁 <strong>July = Great Migration.</strong> Millions of wildebeest crossing the Mara River. Book a camp in the Northern Serengeti — Lobo or Kogatende area, NOT central. That\'s where the crossing happens.<br><br>🌿 <strong>Pack neutral colors only.</strong> Avoid blue and black — they attract tsetse flies. Khaki, olive, tan.<br><br>📡 <strong>No signal on safari.</strong> Download your trip in PlanitTravel before leaving Arusha. The Serengeti has zero connectivity.<br><br>💊 <strong>Start malaria prophylaxis before departure.</strong> Talk to your doctor at least 2 weeks early.<br><br>Want your full Nairobi + Serengeti itinerary? 🌍'
+  },
+  rio: {
+    q: '"First time in Rio de Janeiro — where do I even start?"',
+    a: 'Rio is one of the great cities of the world. Here is what separates real visitors from tourists:<br><br>🏖️ <strong>Ipanema over Copacabana.</strong> Both beautiful, but Ipanema has better people-watching and slightly safer beaches. Post 3, pre-sunset is golden hour.<br><br>💃 <strong>Go to a samba school rehearsal.</strong> Not a show — an actual Thursday night rehearsal at Mangueira or Salgueiro. R$20 entry. Unforgettable.<br><br>🍖 <strong>Churrascaria for Sunday lunch.</strong> Fogo de Chão is the famous one but locals go to Porcão on the Aterro.<br><br>🔒 <strong>Leave jewelry and expensive watches at the hotel.</strong> Seriously — any of them.<br><br>Want your Rio itinerary built out? 🇧🇷'
+  }
+};
+
+function switchSol(el, dest) {
+  document.querySelectorAll('.sol-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const content = solContent[dest];
+  const msgs = document.getElementById('solMessages');
+  msgs.style.opacity = '0';
+  setTimeout(() => {
+    msgs.innerHTML = `<div class="msg-user">${content.q}</div><div class="msg-sol">${content.a}</div>`;
+    msgs.style.opacity = '1';
+    msgs.style.transition = 'opacity .3s';
+  }, 200);
+}
+
+// BTC TOGGLE
+let btcOn = false;
+function toggleBTC() {
+  btcOn = !btcOn;
+  const tog = document.getElementById('btcToggle');
+  const tip = document.getElementById('toggleTip');
+  const bp1 = document.getElementById('bp1');
+  const bp2 = document.getElementById('bp2');
+  const allPins = document.querySelectorAll('.pin-all');
+  if(btcOn) {
+    tog.classList.remove('off');
+    tip.textContent = '✓ Bitcoin Mode ON — showing only BTC merchants';
+    tip.style.color = 'var(--btc)';
+    allPins.forEach(p => p.style.opacity = '.15');
+    bp1.style.display = 'block';
+    bp2.style.display = 'block';
+  } else {
+    tog.classList.add('off');
+    tip.textContent = 'Tap to see Bitcoin-only places';
+    tip.style.color = '';
+    allPins.forEach(p => p.style.opacity = '1');
+    bp1.style.display = 'none';
+    bp2.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
