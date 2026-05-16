@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlanitTravel — Test Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#08070A;--card:#14121A;--surf:#1E1B26;--b1:rgba(255,255,255,.08);--b2:rgba(255,255,255,.14);--tx:#F0EDE6;--mu:#6E6A78;--btc:#F7931A;--grn:#22C55E;--red:#F87171;--pur:#A78BFA}
+body{background:var(--bg);color:var(--tx);font-family:'Instrument Sans',sans-serif;padding:24px;max-width:800px;margin:0 auto}
+h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--btc);margin-bottom:4px}
+.subtitle{font-size:13px;color:var(--mu);margin-bottom:32px}
+.progress-bar{background:rgba(255,255,255,.06);border-radius:99px;height:8px;margin-bottom:8px;overflow:hidden}
+.progress-fill{background:var(--grn);height:100%;border-radius:99px;transition:width .3s}
+.progress-text{font-size:12px;color:var(--mu);margin-bottom:28px;font-family:'DM Mono',monospace}
+.section{margin-bottom:28px}
+.section-header{display:flex;align-items:center;gap:10px;background:var(--surf);border-radius:12px;padding:12px 16px;margin-bottom:12px;border-left:3px solid var(--btc)}
+.section-ico{font-size:20px}
+.section-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--tx)}
+.section-count{font-size:11px;color:var(--mu);margin-left:auto;font-family:'DM Mono',monospace}
+.test-item{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:10px;margin-bottom:6px;background:var(--card);border:1px solid var(--b1);cursor:pointer;transition:all .2s}
+.test-item:hover{border-color:var(--b2)}
+.test-item.pass{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.25)}
+.test-item.fail{background:rgba(248,113,113,.07);border-color:rgba(248,113,113,.25)}
+.checkbox{width:20px;height:20px;border-radius:6px;border:2px solid var(--mu);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;cursor:pointer}
+.test-item.pass .checkbox{background:var(--grn);border-color:var(--grn);color:#000;font-size:12px;font-weight:700}
+.test-item.fail .checkbox{background:var(--red);border-color:var(--red);color:#000;font-size:12px;font-weight:700}
+.test-text{flex:1}
+.test-action{font-size:13px;font-weight:500;color:var(--tx);margin-bottom:3px}
+.test-expect{font-size:12px;color:var(--mu);line-height:1.5}
+.priority{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;margin-left:8px}
+.p-critical{background:rgba(248,113,113,.15);color:var(--red)}
+.p-high{background:rgba(247,147,26,.15);color:var(--btc)}
+.p-medium{background:rgba(167,139,250,.15);color:var(--pur)}
+.fail-note{display:none;margin-top:6px}
+.test-item.fail .fail-note{display:block}
+.fail-input{width:100%;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--tx);font-family:'Instrument Sans',sans-serif;outline:none}
+.actions{display:flex;gap:10px;margin-top:8px;position:sticky;bottom:0;padding:16px 0;background:var(--bg)}
+.btn{padding:10px 20px;border-radius:10px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--mu)}
+.btn-export{background:var(--btc);color:#000}
+.summary{background:var(--card);border:1px solid var(--b1);border-radius:14px;padding:16px;margin-bottom:20px;display:none}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.summary-stat{text-align:center}
+.summary-val{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;display:block;margin-bottom:2px}
+.summary-key{font-size:11px;color:var(--mu)}
+</style>
+</head>
+<body>
+
+<h1>🧭 PlanitTravel Test Checklist</h1>
+<div class="subtitle">Run through every feature before sending to testers · Tap each item to mark Pass ✓ or Fail ✗</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<div class="progress-text" id="progressText">0 / 0 tests completed</div>
+
+<div class="summary" id="summary">
+  <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">Test Summary</div>
+  <div class="summary-grid">
+    <div class="summary-stat"><span class="summary-val" id="passCount" style="color:var(--grn)">0</span><span class="summary-key">Passed</span></div>
+    <div class="summary-stat"><span class="summary-val" id="failCount" style="color:var(--red)">0</span><span class="summary-key">Failed</span></div>
+    <div class="summary-stat"><span class="summary-val" id="skipCount" style="color:var(--mu)">0</span><span class="summary-key">Remaining</span></div>
+  </div>
+</div>
+
+<!-- SECTION 1: LAUNCH & ONBOARDING -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">🚀</div>
+    <div class="section-title">Launch & Onboarding</div>
+    <div class="section-count" id="count-1">0/5</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="1">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">App opens without crashing<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Dark screen with PlanitTravel header loads within 3 seconds</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="1">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Onboarding shows on first launch<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: 5 animated slides appear — Sol, Voice, Bitcoin Map, Offline, Trip Planning</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="1">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Skip button works on onboarding<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Tapping Skip goes directly to home screen</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="1">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">All 5 bottom tabs visible and tappable<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Trips, Maps, Pay, Community, Guide — all show correct emoji icons, no broken rectangles</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="1">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">No error messages on launch<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: No red error banners at the bottom of the screen</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: SOL AI -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">☀️</div>
+    <div class="section-title">Sol AI Companion</div>
+    <div class="section-count" id="count-2">0/6</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="2">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Sol search bar visible on home screen<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: "Ask Sol anything about your trip..." bar appears at top of Trips screen</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="2">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Sol responds to a travel question<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Ask: "What should I pack for Morocco in May?" — Expected: Specific detailed answer within 10 seconds</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="2">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Floating Sol ☀️ button appears on every tab<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Orange ☀️ button visible on Trips, Maps, Pay, Community, Guide screens</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="2">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Sol chat opens full screen<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Tapping Sol button opens full screen chat with Sol avatar and welcome message</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="2">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Sol gives destination-specific advice<span class="priority p-high">High</span></div>
+      <div class="test-expect">Ask: "What Bitcoin options exist in Cairo?" — Expected: Honest specific answer about Egypt crypto situation</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="2">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Sol chat has back button to exit<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: ← back arrow visible in top left of Sol chat screen</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: VOICE INTERPRETER -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">🎙️</div>
+    <div class="section-title">Voice Interpreter</div>
+    <div class="section-count" id="count-3">0/8</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Guide tab opens voice interpreter<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Camera | Voice | Type | Chat tabs visible at top</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Type a phrase and get translation<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Type "Where is the market?" in English, select Egyptian Arabic — Expected: Arabic text, phonetics, audio plays</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Voice plays the translation out loud<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Audio plays through speaker within 3 seconds of translation appearing</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Replay button works<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Tapping Replay plays the same audio again without delay</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Microphone records and translates<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Hold mic button, say "How much does this cost?", release — Expected: Transcription appears then Arabic translation</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">All 14 languages available in selector<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Arabic, English, Farsi, French, German, Italian, Japanese, Mandarin, Portuguese, Spanish (3 variants), Swahili, Turkish all listed alphabetically</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Saved phrases library shows by language<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Switching to Swahili shows Swahili phrases, switching to Darija shows Moroccan phrases</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="3">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Recent phrases are tappable<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Tapping any recent phrase replays it and repopulates the text field</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: CAMERA TRANSLATION -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">📷</div>
+    <div class="section-title">Camera Translation</div>
+    <div class="section-count" id="count-4">0/4</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="4">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Camera tab is first on left in Guide<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Camera | Voice | Type | Chat order from left to right</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="4">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Camera opens when tapping Take Photo<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Phone camera opens immediately after tapping Take Photo button</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="4">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Photo of text gets translated<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Take photo of any text — Expected: Original text detected, translation shown with phonetics within 5 seconds</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="4">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Choose Photo from gallery works<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Photo library opens, selecting an image with text translates it correctly</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: CONVERSATION MODE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">💬</div>
+    <div class="section-title">Conversation Mode</div>
+    <div class="section-count" id="count-5">0/5</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="5">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Conversation mode opens<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Chat tab in Guide opens two-sided conversation interface</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="5">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Can exit conversation mode<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: ← back arrow visible and working to exit conversation mode</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="5">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Person A speaks — Person B hears translation<span class="priority p-high">High</span></div>
+      <div class="test-expect">Tap Person A button, speak English — Expected: Arabic translation spoken out loud</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="5">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Auto mode toggle visible<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Manual | Auto toggle switch at top of conversation screen</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="5">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Conversation thread builds up correctly<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Each exchange adds a bubble showing original and translation for both speakers</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: TRIPS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">✈️</div>
+    <div class="section-title">Trips & Booking Parser</div>
+    <div class="section-count" id="count-6">0/6</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="6">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Trip cards show on home screen<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Trip cards visible with destination, dates, and home currency budget shown first</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="6">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Add Trip + button visible and tappable<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Large clear + button on home screen for adding a new trip</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="6">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Sol booking parser — paste a confirmation<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Paste any hotel or flight confirmation text — Expected: Sol reads it and creates a structured trip within 10 seconds</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="6">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Trip detail opens with day-by-day itinerary<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Tapping a trip card opens full itinerary with Day 1, Day 2 etc and activities listed</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="6">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Location links on trip stops work<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Tapping a stop shows links to Wikipedia, TripAdvisor, Google Maps</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="6">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Download trip for offline use<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Download button on trip, progress bar shows, green Offline Ready badge appears when done</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7: OFFLINE MODE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">📡</div>
+    <div class="section-title">Offline Mode</div>
+    <div class="section-count" id="count-7">0/4</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="7">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Turn on airplane mode — app still opens<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Turn on airplane mode then open app — Expected: App loads normally showing downloaded trips</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="7">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Downloaded trip visible offline<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">In airplane mode — Expected: Downloaded trip shows full itinerary with green Offline badge</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="7">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Phrase library works offline<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">In airplane mode — Go to Guide tab — Expected: Saved phrases still visible and tappable</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="7">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Clear offline error message when feature not available<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">In airplane mode — try Sol — Expected: Clear message saying "Sol needs internet connection" not a crash</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 8: MAPS & PAY -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">🗺️</div>
+    <div class="section-title">Maps & Pay Screen</div>
+    <div class="section-count" id="count-8">0/7</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="8">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Pay screen shows three tabs: All, Currency, Bitcoin<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Three tabs at top of Pay screen. All is default. Middle tab shows home currency symbol.</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="8">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Map loads with merchant pins<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Map shows orange pins for merchants with Live green badge visible</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="8">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Tapping a merchant opens detail sheet<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Bottom sheet slides up showing merchant name, category, payment methods, Directions button</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="8">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">GPS current location button works<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Tapping GPS button centers map on user's actual current location</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="8">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Currency converter shows fiat first<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: USD, MAD, EGP, BRL shown as large primary amounts. BTC shown small underneath.</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="8">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Bitcoin tab shows only BTC merchants<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Switching to Bitcoin tab filters map to only orange BTC merchant pins</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="8">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Map defaults to trip destination not Japan<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Map centers on active trip destination. If no trip — uses GPS location.</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 9: COMMUNITY -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">🌍</div>
+    <div class="section-title">Community</div>
+    <div class="section-count" id="count-9">0/4</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="9">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Community feed loads with posts<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Posts visible from travelers with location tags, hashtags, like/comment counts</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="9">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Compose button works — can write a post<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Tapping + opens compose screen with text field, location tag, hashtag options</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="9">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Recommendations filter works<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Can filter community posts by Recommendations to see only tips and suggestions</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="9">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Search by city works<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Type "Morocco" in search — Expected: Only Morocco-tagged posts appear</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: SETTINGS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">⚙️</div>
+    <div class="section-title">Settings & Help</div>
+    <div class="section-count" id="count-10">0/5</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="10">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Settings opens from ⚙️ icon<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Tapping ⚙️ icon on home screen opens Settings without crashing</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="10">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">App language can be changed<span class="priority p-high">High</span></div>
+      <div class="test-expect">Change to Spanish — Expected: All UI text including menus, buttons, FAQ switches to Spanish</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="10">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">FAQ opens and accordions work<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: 5 FAQ topics expand and collapse smoothly. Back arrow exits FAQ.</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="10">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Feedback inbox shows submitted feedback<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: All feedback submissions visible in Settings with star rating, comment, timestamp</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="10">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Help Center tip cards visible<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: 7 color-coded tip cards visible in Help Center with feature descriptions</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 11: FEEDBACK BUTTON -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">📝</div>
+    <div class="section-title">Feedback Button</div>
+    <div class="section-count" id="count-11">0/3</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="11">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">FB button visible on every screen without covering content<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Expected: Small red FB tab on right edge of screen. Does not cover PlanitTravel header or Sol button.</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="11">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Feedback form submits successfully<span class="priority p-critical">Critical</span></div>
+      <div class="test-expect">Tap FB, select 3 stars, type "Test feedback", submit — Expected: Success message and item appears in Settings inbox</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="11">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Feedback captures screen name and language<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Feedback entry in inbox shows which screen it came from and which language was active</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 12: FAMILY FEATURES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-ico">👨‍👩‍👧‍👦</div>
+    <div class="section-title">Family & Group Travel</div>
+    <div class="section-count" id="count-12">0/3</div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="12">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Share trip button visible on trip detail<span class="priority p-high">High</span></div>
+      <div class="test-expect">Expected: Share button on trip detail generates a shareable link</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="12">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Share via WhatsApp and Telegram buttons work<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Tapping Share via WhatsApp opens WhatsApp with trip details pre-filled</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+  <div class="test-item" onclick="toggle(this)" data-section="12">
+    <div class="checkbox"></div>
+    <div class="test-text">
+      <div class="test-action">Live location sharing option in shared trip<span class="priority p-medium">Medium</span></div>
+      <div class="test-expect">Expected: Location sharing toggle visible inside shared trip with safety ping button</div>
+      <div class="fail-note"><input class="fail-input" placeholder="Describe what happened instead..." onclick="event.stopPropagation()"></div>
+    </div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn btn-reset" onclick="resetAll()">Reset All</button>
+  <button class="btn btn-export" onclick="exportResults()">Export Results</button>
+</div>
+
+<script>
+let results = {};
+
+function toggle(item) {
+  const key = item.dataset.section + '-' + Array.from(item.parentNode.children).indexOf(item);
+  if (!results[key] || results[key] === 'none') {
+    results[key] = 'pass';
+    item.classList.remove('fail');
+    item.classList.add('pass');
+    item.querySelector('.checkbox').textContent = '✓';
+  } else if (results[key] === 'pass') {
+    results[key] = 'fail';
+    item.classList.remove('pass');
+    item.classList.add('fail');
+    item.querySelector('.checkbox').textContent = '✗';
+  } else {
+    results[key] = 'none';
+    item.classList.remove('pass','fail');
+    item.querySelector('.checkbox').textContent = '';
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const items = document.querySelectorAll('.test-item');
+  const total = items.length;
+  const done = Object.values(results).filter(v => v !== 'none').length;
+  const passed = Object.values(results).filter(v => v === 'pass').length;
+  const failed = Object.values(results).filter(v => v === 'fail').length;
+  
+  const pct = Math.round(done/total*100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = done + ' / ' + total + ' tests completed · ' + passed + ' passed · ' + failed + ' failed';
+  
+  // Update section counts
+  for(let s = 1; s <= 12; s++) {
+    const sItems = document.querySelectorAll('[data-section="' + s + '"]');
+    const sDone = Array.from(sItems).filter(i => i.classList.contains('pass') || i.classList.contains('fail')).length;
+    const el = document.getElementById('count-' + s);
+    if(el) el.textContent = sDone + '/' + sItems.length;
+  }
+  
+  if(done > 0) {
+    document.getElementById('summary').style.display = 'block';
+    document.getElementById('passCount').textContent = passed;
+    document.getElementById('failCount').textContent = failed;
+    document.getElementById('skipCount').textContent = total - done;
+  }
+}
+
+function resetAll() {
+  results = {};
+  document.querySelectorAll('.test-item').forEach(i => {
+    i.classList.remove('pass','fail');
+    i.querySelector('.checkbox').textContent = '';
+  });
+  document.querySelectorAll('.fail-input').forEach(i => i.value = '');
+  updateProgress();
+  document.getElementById('summary').style.display = 'none';
+}
+
+function exportResults() {
+  const items = document.querySelectorAll('.test-item');
+  let report = 'PLANITTRAVEL TEST REPORT\n';
+  report += new Date().toLocaleString() + '\n\n';
+  
+  const passed = Object.values(results).filter(v => v === 'pass').length;
+  const failed = Object.values(results).filter(v => v === 'fail').length;
+  report += 'SUMMARY: ' + passed + ' passed / ' + failed + ' failed\n\n';
+  
+  report += 'FAILED TESTS:\n';
+  items.forEach(item => {
+    if(item.classList.contains('fail')) {
+      const action = item.querySelector('.test-action').textContent;
+      const note = item.querySelector('.fail-input').value;
+      report += '✗ ' + action + '\n';
+      if(note) report += '  Notes: ' + note + '\n';
+    }
+  });
+  
+  const blob = new Blob([report], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'planittravel-test-' + Date.now() + '.txt';
+  a.click();
+}
+
+updateProgress();
+</script>
+</body>
+</html>
